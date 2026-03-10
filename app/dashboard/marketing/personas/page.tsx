@@ -86,7 +86,7 @@ export default function PersonasPage() {
     >
       <aside
         style={{
-          width: "240px",
+          width: "280px",
           flexShrink: 0,
           borderRight: "1px solid #e5e7eb",
           paddingRight: "1.5rem",
@@ -158,7 +158,19 @@ export default function PersonasPage() {
                     cursor: "pointer",
                   }}
                 >
-                  {p.name}
+                  <span style={{ display: "block" }}>{p.name}</span>
+                  <span
+                    style={{
+                      display: "block",
+                      marginTop: "0.2rem",
+                      fontSize: "0.75rem",
+                      fontWeight: 400,
+                      color: isActive ? "#6b7280" : "#9ca3af",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {p.headline ? (p.headline.length > 100 ? p.headline.slice(0, 97) + "…" : p.headline) : p.role}
+                  </span>
                 </button>
               );
             })}

@@ -5,7 +5,7 @@ import {
   BRAND_PROFILE,
   PERSONA_SYSTEM_PROMPT,
   CAMPAIGN_SYSTEM_PROMPT,
-} from "../prompts";
+} from "./prompts";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
