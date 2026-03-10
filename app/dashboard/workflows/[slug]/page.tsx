@@ -111,8 +111,9 @@ export default function WorkflowDetailPage() {
             fontSize: "0.875rem",
             color: "#6b7280",
             textDecoration: "none",
-            marginBottom: "1rem",
             display: "inline-block",
+            marginBottom: "1rem",
+            cursor: "pointer",
           }}
         >
           ← Back to Workflows
@@ -179,6 +180,7 @@ export default function WorkflowDetailPage() {
           color: "#6b7280",
           textDecoration: "none",
           display: "inline-block",
+          cursor: "pointer",
         }}
       >
         ← Back to Workflows

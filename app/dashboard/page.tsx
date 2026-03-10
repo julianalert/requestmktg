@@ -16,6 +16,7 @@ export default function DashboardPage() {
             textDecoration: "none",
             color: "#111827",
             fontSize: "0.875rem",
+            cursor: "pointer",
           }}
         >
           Marketing
@@ -29,6 +30,7 @@ export default function DashboardPage() {
             textDecoration: "none",
             color: "#111827",
             fontSize: "0.875rem",
+            cursor: "pointer",
           }}
         >
           Workflows
@@ -42,6 +44,7 @@ export default function DashboardPage() {
             textDecoration: "none",
             color: "#111827",
             fontSize: "0.875rem",
+            cursor: "pointer",
           }}
         >
           Agents

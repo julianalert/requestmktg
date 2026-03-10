@@ -26,6 +26,7 @@ export default function WorkflowsPage() {
             color: "#0369a1",
             textDecoration: "none",
             fontWeight: 500,
+            cursor: "pointer",
           }}
         >
           Previous runs →
@@ -50,6 +51,7 @@ export default function WorkflowsPage() {
               backgroundColor: "#fff",
               textDecoration: "none",
               color: "inherit",
+              cursor: "pointer",
               transition: "box-shadow 0.15s ease, border-color 0.15s ease",
             }}
             onMouseOver={(e) => {

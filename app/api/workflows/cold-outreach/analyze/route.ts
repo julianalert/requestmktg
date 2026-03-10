@@ -105,7 +105,11 @@ export async function POST(request: Request) {
       .from("workflow_runs")
       .insert({
         workflow_id: "cold-outreach-sequence",
-        input: { personaId },
+        input: {
+          personaId,
+          personaName: persona.name ?? "Unknown",
+          personaRole: persona.role ?? undefined,
+        },
         result: analysis,
       })
       .select("id")

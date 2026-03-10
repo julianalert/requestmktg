@@ -9,7 +9,13 @@ import { getWorkflowById, type WorkflowId, getCategoryBadgeStyles } from "@/lib/
 type Run = {
   id: string;
   workflowId: string;
-  input: { url: string; conversionGoal?: string };
+  input: {
+    url?: string;
+    conversionGoal?: string;
+    personaId?: string;
+    personaName?: string;
+    personaRole?: string;
+  };
   result: string;
   createdAt: string;
 };
@@ -88,6 +94,7 @@ export default function WorkflowRunDetailPage() {
             textDecoration: "none",
             display: "inline-block",
             marginBottom: "1rem",
+            cursor: "pointer",
           }}
         >
           ← Previous runs
@@ -108,6 +115,7 @@ export default function WorkflowRunDetailPage() {
             textDecoration: "none",
             display: "inline-block",
             marginBottom: "1rem",
+            cursor: "pointer",
           }}
         >
           ← Previous runs
@@ -120,7 +128,11 @@ export default function WorkflowRunDetailPage() {
   const workflow = getWorkflowById(run.workflowId as WorkflowId);
   const workflowName = workflow?.name ?? run.workflowId;
   const category = workflow?.category ?? run.workflowId;
-  const url = run.input?.url ?? "—";
+  const isColdOutreach = run.workflowId === "cold-outreach-sequence";
+  const inputLabel = isColdOutreach ? "Persona" : "URL";
+  const inputValue = isColdOutreach
+    ? [run.input?.personaName, run.input?.personaRole].filter(Boolean).join(" — ") || "—"
+    : run.input?.url ?? "—";
   const date = (() => {
     try {
       return new Date(run.createdAt).toLocaleString(undefined, {
@@ -141,6 +153,7 @@ export default function WorkflowRunDetailPage() {
           color: "#6b7280",
           textDecoration: "none",
           display: "inline-block",
+          cursor: "pointer",
         }}
       >
         ← Previous runs
@@ -171,7 +184,7 @@ export default function WorkflowRunDetailPage() {
         {workflowName}
       </h1>
       <p style={{ fontSize: "0.875rem", color: "#6b7280", margin: "0 0 0.25rem 0" }}>
-        <strong>URL:</strong> {url}
+        <strong>{inputLabel}:</strong> {inputValue}
       </p>
       <p style={{ fontSize: "0.8125rem", color: "#9ca3af", margin: "0 0 1rem 0" }}>
         {date}

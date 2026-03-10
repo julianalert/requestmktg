@@ -41,6 +41,7 @@ export function DashboardSidebar() {
                 backgroundColor: isActive ? "#f3f4f6" : "transparent",
                 borderRight: isActive ? "3px solid #111827" : "3px solid transparent",
                 marginRight: "-1px",
+                cursor: "pointer",
               }}
             >
               <span style={{ marginRight: "0.5rem" }}>{emoji}</span>

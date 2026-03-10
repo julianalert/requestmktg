@@ -37,6 +37,7 @@ export function MarketingSubNav() {
               fontWeight: isActive ? 600 : 400,
               backgroundColor: isActive ? "#f3f4f6" : "transparent",
               borderRadius: "4px",
+              cursor: "pointer",
             }}
           >
             {label}

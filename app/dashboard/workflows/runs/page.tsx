@@ -7,7 +7,13 @@ import { getWorkflowById, type WorkflowId, getCategoryBadgeStyles } from "@/lib/
 type Run = {
   id: string;
   workflowId: string;
-  input: { url: string; conversionGoal?: string };
+  input: {
+    url?: string;
+    conversionGoal?: string;
+    personaId?: string;
+    personaName?: string;
+    personaRole?: string;
+  };
   result: string;
   createdAt: string;
 };
@@ -50,6 +56,7 @@ export default function WorkflowRunsPage() {
           textDecoration: "none",
           display: "inline-block",
           marginBottom: "1rem",
+          cursor: "pointer",
         }}
       >
         ← Back to Workflows
@@ -118,7 +125,12 @@ export default function WorkflowRunsPage() {
           {runs.map((run) => {
             const workflow = getWorkflowById(run.workflowId as WorkflowId);
             const label = workflow?.name ?? run.workflowId;
-            const url = run.input?.url ?? "—";
+            const subtitle =
+              run.workflowId === "cold-outreach-sequence"
+                ? run.input?.personaName
+                  ? [run.input.personaName, run.input.personaRole].filter(Boolean).join(" — ")
+                  : "—"
+                : run.input?.url ?? "—";
             return (
               <li key={run.id}>
                 <Link
@@ -131,6 +143,7 @@ export default function WorkflowRunsPage() {
                     backgroundColor: "#fff",
                     textDecoration: "none",
                     color: "inherit",
+                    cursor: "pointer",
                   }}
                 >
                   <span
@@ -157,7 +170,7 @@ export default function WorkflowRunsPage() {
                       marginTop: "0.25rem",
                     }}
                   >
-                    {url}
+                    {subtitle}
                   </span>
                   <span
                     style={{
