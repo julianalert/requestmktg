@@ -2,45 +2,16 @@ import OpenAI from "openai";
 import { createClient } from "@supabase/supabase-js";
 import { WEBSITE_CONTENT, BRAND_PROFILE } from "@/app/api/personas/prompts";
 import { PRIMARY_KEYWORDS_SYSTEM_PROMPT } from "../prompts";
+import {
+  normalizeKeywords,
+  DEFAULT_LOCATION,
+  DEFAULT_LANGUAGE,
+  DEFAULT_LIMIT,
+  DEFAULT_DEPTH,
+} from "./utils";
+import type { PrimaryKeywordEntry } from "./utils";
 
 const OPENAI_MODEL = "gpt-4o-mini";
-
-export type PrimaryKeywordEntry = {
-  keyword: string;
-  location: string;
-  language: string;
-  limit: number;
-  depth: number;
-};
-
-const DEFAULT_LOCATION = "United States";
-const DEFAULT_LANGUAGE = "English";
-const DEFAULT_LIMIT = 200;
-const DEFAULT_DEPTH = 2;
-
-function toEntry(kw: string | PrimaryKeywordEntry): PrimaryKeywordEntry {
-  if (typeof kw === "string") {
-    return {
-      keyword: kw,
-      location: DEFAULT_LOCATION,
-      language: DEFAULT_LANGUAGE,
-      limit: DEFAULT_LIMIT,
-      depth: DEFAULT_DEPTH,
-    };
-  }
-  return {
-    keyword: kw.keyword ?? "",
-    location: kw.location ?? DEFAULT_LOCATION,
-    language: kw.language ?? DEFAULT_LANGUAGE,
-    limit: typeof kw.limit === "number" ? kw.limit : DEFAULT_LIMIT,
-    depth: typeof kw.depth === "number" ? kw.depth : DEFAULT_DEPTH,
-  };
-}
-
-export function normalizeKeywords(raw: unknown): PrimaryKeywordEntry[] {
-  if (!Array.isArray(raw)) return [];
-  return raw.map((item) => toEntry(item as string | PrimaryKeywordEntry)).filter((e) => e.keyword.trim() !== "");
-}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

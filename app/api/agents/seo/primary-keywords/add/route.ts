@@ -1,11 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import type { PrimaryKeywordEntry } from "../route";
-import { normalizeKeywords } from "../route";
-
-const DEFAULT_LOCATION = "United States";
-const DEFAULT_LANGUAGE = "English";
-const DEFAULT_LIMIT = 200;
-const DEFAULT_DEPTH = 2;
+import type { PrimaryKeywordEntry } from "../utils";
+import { normalizeKeywords, DEFAULT_LOCATION, DEFAULT_LANGUAGE, DEFAULT_LIMIT, DEFAULT_DEPTH } from "../utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
