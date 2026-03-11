@@ -36,6 +36,20 @@ export default function DashboardPage() {
           Workflows
         </Link>
         <Link
+          href="/dashboard/experiments"
+          style={{
+            padding: "0.5rem 1rem",
+            backgroundColor: "#f3f4f6",
+            borderRadius: "6px",
+            textDecoration: "none",
+            color: "#111827",
+            fontSize: "0.875rem",
+            cursor: "pointer",
+          }}
+        >
+          Experiments
+        </Link>
+        <Link
           href="/dashboard/agents"
           style={{
             padding: "0.5rem 1rem",

@@ -48,6 +48,20 @@ function personaToText(p: {
   return parts.join("\n\n");
 }
 
+function formatSalesOutreachAngles(
+  angles: Array<{ angle?: string; opening_message?: string; pain_trigger?: string }>
+): string {
+  if (!angles.length) return "";
+  const lines = angles.map((a, i) => {
+    const parts: string[] = [];
+    if (a.angle) parts.push(`Angle: ${a.angle}`);
+    if (a.opening_message) parts.push(`Opening message: ${a.opening_message}`);
+    if (a.pain_trigger) parts.push(`Pain trigger: ${a.pain_trigger}`);
+    return `${i + 1}. ${parts.join("\n   ")}`;
+  });
+  return "Sales outreach angles (use these to inspire and align your 3 sequences):\n" + lines.join("\n\n");
+}
+
 export async function POST(request: Request) {
   try {
     const apiKey = process.env.OPENAI_API_KEY;
@@ -81,11 +95,31 @@ export async function POST(request: Request) {
       );
     }
 
+    const { data: campaign } = await supabase
+      .from("persona_campaigns")
+      .select("sales_outreach_angles")
+      .eq("persona_id", personaId)
+      .maybeSingle();
+
+    const salesOutreachAngles = (campaign?.sales_outreach_angles ?? []) as Array<{
+      angle?: string;
+      opening_message?: string;
+      pain_trigger?: string;
+    }>;
+
     const personaText = personaToText(persona);
+    const salesAnglesText = formatSalesOutreachAngles(salesOutreachAngles);
 
     const openai = new OpenAI({ apiKey });
 
-    const userContent = `Product description:\n${PRODUCT_DESCRIPTION}\n\n---\n\nDetailed buyer persona:\n${personaText}`;
+    const userParts = [
+      `Product description:\n${PRODUCT_DESCRIPTION}`,
+      `\n---\n\nDetailed buyer persona:\n${personaText}`,
+    ];
+    if (salesAnglesText) {
+      userParts.push(`\n---\n\n${salesAnglesText}`);
+    }
+    const userContent = userParts.join("");
 
     const completion = await openai.chat.completions.create({
       model: OPENAI_MODEL,

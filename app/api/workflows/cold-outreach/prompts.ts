@@ -35,6 +35,7 @@ You will receive:
 
 1) A detailed buyer persona
 2) A product description
+3) Optionally: Sales outreach angles for this persona (angle, opening message, pain trigger). When provided, use these angles to choose and shape your 3 sequences—align at least one sequence with each provided angle where relevant, and draw on the opening messages and pain triggers to make the emails more relevant.
 
 You must use the information already provided about the persona to craft highly relevant outreach.
 Do NOT repeat or summarize the persona.

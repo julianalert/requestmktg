@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { AGENTS, getAgentCategoryStyles } from "@/lib/agents/data";
+import { EXPERIMENTS, getExperimentCategoryStyles } from "@/lib/experiments/data";
 
-export default function AgentsPage() {
+export default function ExperimentsPage() {
   return (
     <div>
       <h1
@@ -13,10 +13,10 @@ export default function AgentsPage() {
           marginBottom: "0.5rem",
         }}
       >
-        Agents
+        Experiments
       </h1>
       <p style={{ color: "#6b7280", marginBottom: "1.5rem" }}>
-        Full-featured SEO and marketing agents with tables and actions.
+        Initiatives and plays to test—track and run experiments from here.
       </p>
       <div
         style={{
@@ -25,10 +25,10 @@ export default function AgentsPage() {
           gap: "1rem",
         }}
       >
-        {AGENTS.map((agent) => (
+        {EXPERIMENTS.map((experiment) => (
           <Link
-            key={agent.id}
-            href={`/dashboard/agents/${agent.slug}`}
+            key={experiment.id}
+            href={`/dashboard/experiments/${experiment.slug}`}
             style={{
               display: "block",
               padding: "1.25rem",
@@ -57,10 +57,10 @@ export default function AgentsPage() {
                 padding: "0.2rem 0.5rem",
                 borderRadius: "9999px",
                 marginBottom: "0.5rem",
-                ...getAgentCategoryStyles(agent.category),
+                ...getExperimentCategoryStyles(experiment.category),
               }}
             >
-              {agent.category}
+              {experiment.category}
             </span>
             <h2
               style={{
@@ -70,7 +70,7 @@ export default function AgentsPage() {
                 color: "#111827",
               }}
             >
-              {agent.name}
+              {experiment.name}
             </h2>
             <p
               style={{
@@ -80,7 +80,7 @@ export default function AgentsPage() {
                 margin: 0,
               }}
             >
-              {agent.description}
+              {experiment.description}
             </p>
             <div
               style={{
@@ -90,7 +90,7 @@ export default function AgentsPage() {
                 marginTop: "0.75rem",
               }}
             >
-              {agent.tags.map((tag) => (
+              {experiment.tags.map((tag) => (
                 <span
                   key={tag}
                   style={{
