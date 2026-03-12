@@ -44,6 +44,10 @@ async function dataforseoPost(path: string, body: unknown): Promise<unknown> {
   return res.json();
 }
 
+type KeywordInfo = { search_volume?: number; competition?: number; cpc?: number };
+type KeywordProps = { keyword_difficulty?: number };
+type IntentInfo = { main_intent?: string };
+
 function toRow(
   primaryKeyword: string,
   type: KeywordOpportunityRow["type"],
@@ -51,19 +55,19 @@ function toRow(
     keyword?: string;
     keyword_data?: {
       keyword?: string;
-      keyword_info?: { search_volume?: number; competition?: number; cpc?: number };
-      keyword_properties?: { keyword_difficulty?: number };
-      search_intent_info?: { main_intent?: string };
+      keyword_info?: unknown;
+      keyword_properties?: unknown;
+      search_intent_info?: unknown;
     };
-    keyword_info?: { search_volume?: number; competition?: number; cpc?: number };
-    keyword_properties?: { keyword_difficulty?: number };
-    search_intent_info?: { main_intent?: string };
+    keyword_info?: unknown;
+    keyword_properties?: unknown;
+    search_intent_info?: unknown;
   }
 ): KeywordOpportunityRow {
-  const kw = item.keyword ?? item.keyword_data?.keyword ?? "";
-  const info = item.keyword_info ?? item.keyword_data?.keyword_info;
-  const props = item.keyword_properties ?? item.keyword_data?.keyword_properties;
-  const intent = item.search_intent_info ?? item.keyword_data?.search_intent_info;
+  const kw = item.keyword ?? (item.keyword_data?.keyword as string | undefined) ?? "";
+  const info = (item.keyword_info ?? item.keyword_data?.keyword_info) as KeywordInfo | undefined;
+  const props = (item.keyword_properties ?? item.keyword_data?.keyword_properties) as KeywordProps | undefined;
+  const intent = (item.search_intent_info ?? item.keyword_data?.search_intent_info) as IntentInfo | undefined;
   return {
     keyword: kw,
     primary_keyword: primaryKeyword,
