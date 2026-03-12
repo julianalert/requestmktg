@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const STORAGE_KEY = "marketing-strategy-todos";
 
@@ -9,6 +10,9 @@ export interface StrategyItem {
   step: number;
   label: string;
   detail?: string;
+  /** Optional link to a related page (e.g. experiment). */
+  linkHref?: string;
+  linkLabel?: string;
 }
 
 const initialItems: StrategyItem[] = [
@@ -50,12 +54,18 @@ const initialItems: StrategyItem[] = [
     id: "s3-2",
     step: 3,
     label: "Create the right infra",
-    detail: "We are at risk of being labelled as a spammy company. We need to create the right infra to avoid this.",
+    detail: "We are at risk of being labelled as a spammy company (I think we are already). We need to create the right infra to avoid this.",
   },
   {
     id: "s3-3",
     step: 3,
-    label: "Launch campaign 1",
+    label: "Prepare 50 campaigns = 50 personas",
+    detail: "persona, list of leads w/ emails, campaigns ready to be launched for each persona",
+  },
+  {
+    id: "s3-4",
+    step: 3,
+    label: "Launch campaign by campaign",
     detail: "report, analyze, iterate",
   },
   {
@@ -72,11 +82,14 @@ const initialItems: StrategyItem[] = [
     id: "s5-1",
     step: 5,
     label: "Google AdWords",
+    detail: "See if we must scale this or not",
   },
   {
     id: "s5-2",
     step: 5,
     label: "Influence marketing",
+    linkHref: "/dashboard/experiments/edusales-influence",
+    linkLabel: "EduSales × Influence Marketing experiment",
   },
   {
     id: "s5-3",
@@ -271,6 +284,22 @@ export default function StrategyPage() {
                           }}
                         >
                           {item.detail}
+                        </p>
+                      ) : null}
+                      {item.linkHref ? (
+                        <p style={{ margin: "0.25rem 0 0 0" }}>
+                          <Link
+                            href={item.linkHref}
+                            style={{
+                              fontSize: "0.8125rem",
+                              color: "#0369a1",
+                              textDecoration: "none",
+                              fontWeight: 500,
+                              cursor: "pointer",
+                            }}
+                          >
+                            → {item.linkLabel ?? "Open"}
+                          </Link>
                         </p>
                       ) : null}
                     </div>
