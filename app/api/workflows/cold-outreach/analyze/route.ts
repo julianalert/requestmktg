@@ -1,12 +1,15 @@
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
+import {
+  WORKFLOW_ANTHROPIC_MODEL,
+  WORKFLOW_ANTHROPIC_MAX_TOKENS,
+  extractTextFromMessage,
+} from "@/lib/workflows/anthropic";
 import {
   PRODUCT_DESCRIPTION,
   COLD_OUTREACH_SYSTEM_PROMPT,
   COLD_OUTREACH_OUTPUT_STRUCTURE,
 } from "../prompts";
-
-const OPENAI_MODEL = "gpt-4o-mini";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,10 +67,10 @@ function formatSalesOutreachAngles(
 
 export async function POST(request: Request) {
   try {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
       return Response.json(
-        { error: "OPENAI_API_KEY is not set" },
+        { error: "ANTHROPIC_API_KEY is not set" },
         { status: 500 }
       );
     }
@@ -110,7 +113,7 @@ export async function POST(request: Request) {
     const personaText = personaToText(persona);
     const salesAnglesText = formatSalesOutreachAngles(salesOutreachAngles);
 
-    const openai = new OpenAI({ apiKey });
+    const anthropic = new Anthropic({ apiKey });
 
     const userParts = [
       `Product description:\n${PRODUCT_DESCRIPTION}`,
@@ -121,19 +124,15 @@ export async function POST(request: Request) {
     }
     const userContent = userParts.join("");
 
-    const completion = await openai.chat.completions.create({
-      model: OPENAI_MODEL,
-      messages: [
-        {
-          role: "system",
-          content: COLD_OUTREACH_SYSTEM_PROMPT + COLD_OUTREACH_OUTPUT_STRUCTURE,
-        },
-        { role: "user", content: userContent },
-      ],
+    const message = await anthropic.messages.create({
+      model: WORKFLOW_ANTHROPIC_MODEL,
+      max_tokens: WORKFLOW_ANTHROPIC_MAX_TOKENS,
+      system: COLD_OUTREACH_SYSTEM_PROMPT + COLD_OUTREACH_OUTPUT_STRUCTURE,
+      messages: [{ role: "user", content: userContent }],
     });
 
     const analysis =
-      completion.choices[0]?.message?.content?.trim() ?? "No sequence generated.";
+      extractTextFromMessage(message.content).trim() || "No sequence generated.";
 
     const { data: run, error: insertError } = await supabase
       .from("workflow_runs")

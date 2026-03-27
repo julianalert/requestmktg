@@ -1,9 +1,13 @@
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@supabase/supabase-js";
+import {
+  WORKFLOW_ANTHROPIC_MODEL,
+  WORKFLOW_ANTHROPIC_MAX_TOKENS,
+  extractTextFromMessage,
+} from "@/lib/workflows/anthropic";
 import { scrapePageHtml } from "@/lib/workflows/scrape";
 import { SEO_SYSTEM_PROMPT, SEO_OUTPUT_STRUCTURE } from "../prompts";
 
-const OPENAI_MODEL = "gpt-4o-mini";
 const MAX_HTML_CHARS = 120_000;
 
 const supabase = createClient(
@@ -13,10 +17,10 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
       return Response.json(
-        { error: "OPENAI_API_KEY is not set" },
+        { error: "ANTHROPIC_API_KEY is not set" },
         { status: 500 }
       );
     }
@@ -55,21 +59,19 @@ export async function POST(request: Request) {
           "\n\n[... HTML truncated for length ...]"
         : html;
 
-    const openai = new OpenAI({ apiKey });
+    const anthropic = new Anthropic({ apiKey });
 
     const userContent = `Page URL: ${url}\n\nHTML code and content:\n---\n${truncatedHtml}`;
 
-    const completion = await openai.chat.completions.create({
-      model: OPENAI_MODEL,
-      messages: [
-        { role: "system", content: SEO_SYSTEM_PROMPT + SEO_OUTPUT_STRUCTURE },
-        { role: "user", content: userContent },
-      ],
+    const message = await anthropic.messages.create({
+      model: WORKFLOW_ANTHROPIC_MODEL,
+      max_tokens: WORKFLOW_ANTHROPIC_MAX_TOKENS,
+      system: SEO_SYSTEM_PROMPT + SEO_OUTPUT_STRUCTURE,
+      messages: [{ role: "user", content: userContent }],
     });
 
     const analysis =
-      completion.choices[0]?.message?.content?.trim() ??
-      "No audit generated.";
+      extractTextFromMessage(message.content).trim() || "No audit generated.";
 
     const { data: run, error: insertError } = await supabase
       .from("workflow_runs")
