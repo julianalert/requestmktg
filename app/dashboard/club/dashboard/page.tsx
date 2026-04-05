@@ -420,7 +420,8 @@ export default function ClubDashboardPage() {
                       borderRadius: "6px",
                       fontSize: "0.8125rem",
                     }}
-                    formatter={(value: number | string | undefined) => [value != null ? Number(value).toLocaleString() : "0", "Total"]}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    formatter={(value: any) => [value != null ? Number(value).toLocaleString() : "0", "Total"]}
                   />
                   <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                     {chartData.map((entry) => (
