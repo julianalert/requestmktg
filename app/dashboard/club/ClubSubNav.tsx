@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 const subLinks = [
   { href: "/dashboard/club/dashboard", label: "Dashboard" },
   { href: "/dashboard/club/playbook", label: "Playbook" },
+  { href: "/dashboard/club/content-ideas", label: "Content Ideas" },
+  { href: "/dashboard/club/content", label: "List of Content" },
 ] as const;
 
 export function ClubSubNav() {
