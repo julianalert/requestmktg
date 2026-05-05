@@ -22,6 +22,15 @@ export const AGENTS: AgentMeta[] = [
     category: "Marketing",
     tags: ["SEO", "Keywords", "Research"],
   },
+  {
+    id: "social-post-writer",
+    slug: "social-post-writer",
+    name: "The Social Post Writer",
+    description:
+      "LinkedIn posts in JB, Ludo, or Simran's voice. Pick a profile, pick an idea from the curated list, and generate a ready-to-publish post.",
+    category: "Marketing",
+    tags: ["LinkedIn", "Content", "Personal Brand"],
+  },
 ];
 
 export function getAgentBySlug(slug: string): AgentMeta | undefined {

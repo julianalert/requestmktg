@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getAgentBySlug, getAgentCategoryStyles } from "@/lib/agents/data";
+import SocialPostWriterPanel from "@/app/dashboard/agents/social-post-writer/SocialPostWriterPanel";
 
 type TabId = "primary-keywords" | "master-variations";
 
@@ -51,6 +52,7 @@ export default function AgentDetailPage() {
   const [masterDisplayCount, setMasterDisplayCount] = useState(250);
 
   const isSeoAgent = slug === "seo-agent";
+  const isSocialAgent = slug === "social-post-writer";
 
   const MASTER_PAGE_SIZE = 250;
 
@@ -612,7 +614,9 @@ export default function AgentDetailPage() {
         </>
       )}
 
-      {!isSeoAgent && (
+      {isSocialAgent && <SocialPostWriterPanel />}
+
+      {!isSeoAgent && !isSocialAgent && (
         <p style={{ color: "#6b7280" }}>This agent does not have a custom interface yet.</p>
       )}
     </div>
