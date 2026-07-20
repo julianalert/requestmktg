@@ -32,7 +32,6 @@ const KPI_FIELDS: {
   { key: "signups", label: "Signups", color: "#8b5cf6" },
   { key: "demo_bookings", label: "Demo bookings", color: "#ec4899" },
   { key: "demo_completed", label: "Demos completed", color: "#f59e0b" },
-  { key: "paid_users", label: "Paid users", color: "#10b981" },
   { key: "club_members_onboarded", label: "Club members", color: "#06b6d4" },
 ];
 
@@ -42,7 +41,6 @@ const EMPTY_FORM = {
   signups: "",
   demo_bookings: "",
   demo_completed: "",
-  paid_users: "",
   club_members_onboarded: "",
 };
 
@@ -107,7 +105,6 @@ export default function DashboardPage() {
     signups: r.signups,
     demo_bookings: r.demo_bookings,
     demo_completed: r.demo_completed,
-    paid_users: r.paid_users,
     club_members_onboarded: r.club_members_onboarded,
   }));
 
@@ -128,7 +125,6 @@ export default function DashboardPage() {
         signups: form.signups === "" ? 0 : parseInt(form.signups, 10),
         demo_bookings: form.demo_bookings === "" ? 0 : parseInt(form.demo_bookings, 10),
         demo_completed: form.demo_completed === "" ? 0 : parseInt(form.demo_completed, 10),
-        paid_users: form.paid_users === "" ? 0 : parseInt(form.paid_users, 10),
         club_members_onboarded: form.club_members_onboarded === "" ? 0 : parseInt(form.club_members_onboarded, 10),
       };
 
